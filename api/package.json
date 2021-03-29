@@ -10,6 +10,7 @@
     "run": "node src/index.js"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-rate-limit": "^5.2.6"
   }

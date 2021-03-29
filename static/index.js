@@ -1,3 +1,5 @@
+const base = "http://127.0.0.1:8080";
+
 let Nodes = document.getElementsByTagName("LI");
 for (let i = 0; i < Nodes.length; i++) {
     let span = document.createElement("SPAN");
@@ -29,14 +31,12 @@ function newElement() {
     let inputValue = document.getElementById("myInput").value;
     let t = document.createTextNode(inputValue);
     li.appendChild(t);
-    if (inputValue === '') {
-        alert("You must write something!");
-        return;
-    }
+    if (inputValue === '') return;
 
     document.getElementById("myUL").appendChild(li);
-    document.getElementById("myInput").value = "";
     addDelete(li);
+    updateDatabase(inputValue, false);
+    document.getElementById("myInput").value = "";
 }
 
 function addDelete(li) {
@@ -54,9 +54,19 @@ function addDelete(li) {
     }
 }
 
+function updateDatabase(name, checked) {
+    let url = base + "/api/new";
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+    xhr.send(JSON.stringify({"name": name, "checked": checked}));
+}
+
 function loadList() {
     let request = new XMLHttpRequest();
-    request.open('GET', 'http://localhost:8080/', true);
+    request.open('GET', base + '/api/getall', true);
     request.onload = function () {
         document.getElementById("myUL").innerHTML = '';
         JSON.parse(this.response).forEach(element => {
