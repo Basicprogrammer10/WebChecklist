@@ -1,0 +1,16 @@
+{
+  "name": "web-checklist_api",
+  "author": "Connor S <connor@connorcode.com> (https://connorcode.com)",
+  "description": "An API for my web checklist!",
+  "repository": "github:Basicprogrammer10/WebChecklist",
+  "version": "0.0.1",
+  "license": "GPL-3.0",
+  "main": "src/index.js",
+  "scripts": {
+    "run": "node src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6"
+  }
+}

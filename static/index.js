@@ -22,6 +22,8 @@ list.addEventListener('click', function (ev) {
     }
 }, false);
 
+loadList();
+
 function newElement() {
     let li = document.createElement("li");
     let inputValue = document.getElementById("myInput").value;
@@ -53,18 +55,22 @@ function addDelete(li) {
 }
 
 function loadList() {
-    let data = [{"name": "nose", "checked": true}, {"name": "dog", "checked": false},];
+    let request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:8080/', true);
+    request.onload = function () {
+        document.getElementById("myUL").innerHTML = '';
+        JSON.parse(this.response).forEach(element => {
+            let li = document.createElement("li");
+            let t = document.createTextNode(element.name);
+            li.appendChild(t);
 
-    data.forEach(element => {
-        let li = document.createElement("li");
-        let t = document.createTextNode(element.name);
-        li.appendChild(t);
+            document.getElementById("myUL").appendChild(li);
 
-        document.getElementById("myUL").appendChild(li);
+            if (element.checked)
+                li.classList.add("checked");
 
-        if (element.checked)
-            li.classList.add("checked");
-
-        addDelete(li);
-    });
+            addDelete(li);
+        });
+    }
+    request.send();
 }
