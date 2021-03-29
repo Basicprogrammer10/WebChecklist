@@ -1,6 +1,7 @@
 const base = "http://127.0.0.1:8080";
 
 let lastRequest;
+let close = document.getElementsByClassName("close");
 let Nodes = document.getElementsByTagName("LI");
 for (let i = 0; i < Nodes.length; i++) {
     let span = document.createElement("SPAN");
@@ -8,14 +9,6 @@ for (let i = 0; i < Nodes.length; i++) {
     span.className = "close";
     span.appendChild(txt);
     Nodes[i].appendChild(span);
-}
-
-let close = document.getElementsByClassName("close");
-for (let i = 0; i < close.length; i++) {
-    close[i].onclick = function () {
-        let div = this.parentElement;
-        div.style.display = "none";
-    }
 }
 
 let list = document.querySelector('ul');
@@ -29,6 +22,17 @@ list.addEventListener('click', function (ev) {
 }, false);
 
 setInterval(loadList, 1000)
+
+function addOnClick() {
+    close = document.getElementsByClassName("close");
+    for (let i = 0; i < close.length; i++) {
+        close[i].onclick = function () {
+            let div = this.parentElement;
+            div.style.display = "none";
+            deleteItem(div.innerHTML.split('<span')[0]);
+        }
+    }
+}
 
 function newElement() {
     let li = document.createElement("li");
@@ -59,7 +63,7 @@ function addDelete(li) {
 }
 
 function updateDatabase(name, checked) {
-    let url = base + "/api/new";
+    let url = base + "/api";
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 
@@ -68,9 +72,19 @@ function updateDatabase(name, checked) {
     xhr.send(JSON.stringify({"name": name, "checked": checked}));
 }
 
+function deleteItem(name) {
+    let url = base + "/api";
+    let xhr = new XMLHttpRequest();
+    xhr.open("DELETE", url, true);
+
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+    xhr.send(JSON.stringify({"name": name}));
+}
+
 function loadList(force) {
     let request = new XMLHttpRequest();
-    request.open('GET', base + '/api/getall', true);
+    request.open('GET', base + '/api', true);
     request.onload = function () {
         let data = JSON.parse(this.response);
         if (lastRequest === this.response && !force) return;
@@ -88,6 +102,7 @@ function loadList(force) {
 
             addDelete(li);
         });
+        addOnClick();
     }
     request.send();
 }
