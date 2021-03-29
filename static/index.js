@@ -17,11 +17,12 @@ list.addEventListener('click', function (ev) {
         let checked = false;
         if (ev.target.classList.contains('checked')) checked = true;
         ev.target.classList.toggle('checked');
-        updateDatabase(ev.target.innerText.split("×")[0], !checked);
+        updateDatabase(ev.target.innerText.replace("×", '').replace("\n", ''), !checked);
     }
 }, false);
 
-setInterval(loadList, 1000)
+loadList();
+setInterval(loadList, 5000)
 
 function submitOnEnter(event) {
     if (event.keyCode === 13) {
@@ -88,12 +89,12 @@ function deleteItem(name) {
     xhr.send(JSON.stringify({"name": name}));
 }
 
-function loadList(force) {
+function loadList() {
     let request = new XMLHttpRequest();
     request.open('GET', base + '/api', true);
     request.onload = function () {
         let data = JSON.parse(this.response);
-        if (lastRequest === this.response && !document.hidden && !force) return;
+        if (lastRequest === this.response && !document.hidden) return;
         document.getElementById("myUL").innerHTML = '';
         lastRequest = this.response;
         data.forEach(element => {
