@@ -1,5 +1,6 @@
 const base = "http://127.0.0.1:8080";
 
+let lastRequest;
 let Nodes = document.getElementsByTagName("LI");
 for (let i = 0; i < Nodes.length; i++) {
     let span = document.createElement("SPAN");
@@ -24,7 +25,7 @@ list.addEventListener('click', function (ev) {
     }
 }, false);
 
-loadList();
+setInterval(loadList, 1000)
 
 function newElement() {
     let li = document.createElement("li");
@@ -64,12 +65,15 @@ function updateDatabase(name, checked) {
     xhr.send(JSON.stringify({"name": name, "checked": checked}));
 }
 
-function loadList() {
+function loadList(force) {
     let request = new XMLHttpRequest();
     request.open('GET', base + '/api/getall', true);
     request.onload = function () {
+        let data = JSON.parse(this.response);
+        if (lastRequest === this.response && !force) return;
         document.getElementById("myUL").innerHTML = '';
-        JSON.parse(this.response).forEach(element => {
+        lastRequest = this.response;
+        data.forEach(element => {
             let li = document.createElement("li");
             let t = document.createTextNode(element.name);
             li.appendChild(t);
