@@ -21,7 +21,10 @@ for (let i = 0; i < close.length; i++) {
 let list = document.querySelector('ul');
 list.addEventListener('click', function (ev) {
     if (ev.target.tagName === 'LI') {
+        let checked = false;
+        if (ev.target.classList.contains('checked')) checked = true;
         ev.target.classList.toggle('checked');
+        updateDatabase(ev.target.innerText.split("\n×")[0], !checked);
     }
 }, false);
 

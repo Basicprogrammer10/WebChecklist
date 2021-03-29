@@ -13,14 +13,12 @@ app.get('/api/getall', function (req, res) {
 
     fs.readFile(config.data, 'utf8' , (err, data) => {
         if (err) return;
-        res.header('Access-Control-Allow-Origin','*'); //TODO: DEBUG
         res.send(JSON.parse(data));
     });
 });
 
 app.post('/api/new', function (req, res) {
     console.log(`🌐 POST: /api/new ${req.ip}`);
-    res.header('Access-Control-Allow-Origin','*'); //TODO: DEBUG
 
     let item = {
         name: req.body.name,
@@ -30,8 +28,17 @@ app.post('/api/new', function (req, res) {
 
     fs.readFile(config.data, 'utf8' , (err, data) => {
         if (err) return;
+        let addNew = true;
         let oldFile = JSON.parse(data);
-        oldFile.push(item);
+
+        oldFile.forEach(key => {
+            if (key.name === item.name) {
+                key.checked = item.checked;
+                addNew = false;
+            }
+        });
+
+        if (addNew) oldFile.push(item);
 
         fs.writeFile(config.data, JSON.stringify(oldFile), function (err) {
             if (err) return;
