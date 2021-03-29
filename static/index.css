@@ -125,3 +125,13 @@ input {
 .addBtn:hover {
     background-color: #bbb;
 }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #1a1a1d;
+    text-align: center;
+    color: #a0a0a0;
+}
