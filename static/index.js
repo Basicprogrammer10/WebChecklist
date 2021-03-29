@@ -1,4 +1,4 @@
-const base = "http://127.0.0.1:8080";
+const base = "";
 
 let lastRequest;
 let close = document.getElementsByClassName("close");
@@ -17,11 +17,17 @@ list.addEventListener('click', function (ev) {
         let checked = false;
         if (ev.target.classList.contains('checked')) checked = true;
         ev.target.classList.toggle('checked');
-        updateDatabase(ev.target.innerText.split("\n×")[0], !checked);
+        updateDatabase(ev.target.innerText.split("×")[0], !checked);
     }
 }, false);
 
 setInterval(loadList, 1000)
+
+function submitOnEnter(event) {
+    if (event.keyCode === 13) {
+        newElement();
+    }
+}
 
 function addOnClick() {
     close = document.getElementsByClassName("close");
