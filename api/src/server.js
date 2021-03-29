@@ -8,6 +8,9 @@ const app = express();
 app.use(rateLimit({windowMs: 1000, max: 10}));
 app.use(bodyParser.json());
 
+
+app.use(express.static('./../static'));
+
 app.get('/api', function (req, res) {
     console.log(`🌐 GET: /api ${req.ip}`);
 
@@ -21,7 +24,7 @@ app.post('/api', function (req, res) {
     console.log(`🌐 POST: /api ${req.ip}`);
 
     let item = {
-        name: req.body.name,
+        name: makeName(req.body.name),
         checked: req.body.checked
     }
     console.log(item);
@@ -74,9 +77,13 @@ app.delete('/api', function (req, res) {
     res.send();
 });
 
+function makeName(name) {
+    return name.split('×')[0];
+}
+
 module.exports = {
     start: function () {
-        app.listen(config.port, function () {
+        app.listen(config.port, '0.0.0.0', function () {
             console.log(`🐍 Serving http://localhost:${config.port}/`);
         });
     }
