@@ -87,7 +87,7 @@ function loadList(force) {
     request.open('GET', base + '/api', true);
     request.onload = function () {
         let data = JSON.parse(this.response);
-        if (lastRequest === this.response && !force) return;
+        if (lastRequest === this.response && !document.hidden && !force) return;
         document.getElementById("myUL").innerHTML = '';
         lastRequest = this.response;
         data.forEach(element => {

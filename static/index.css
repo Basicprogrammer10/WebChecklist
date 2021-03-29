@@ -55,6 +55,12 @@ ul li.checked::before {
     width: 7px;
 }
 
+.top {
+    color: #ecf3df;
+    margin: 5px;
+    display: inline;
+}
+
 .close {
     position: absolute;
     right: 0;
@@ -69,7 +75,7 @@ ul li.checked::before {
 }
 
 .header {
-    background-color: #a3be8c;
+    background-color: #5cdb94;
     padding: 15px 15px;
     color: white;
     text-align: center;
