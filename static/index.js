@@ -22,7 +22,38 @@ list.addEventListener('click', function (ev) {
 }, false);
 
 loadList();
-setInterval(loadList, 5000)
+setInterval(loadList, 1000)
+
+function logOut() {
+    delete_cookie('checklist', '/', window.location.hostname);
+    window.location.href = "/login";
+
+}
+
+function delete_cookie( name, path, domain ) {
+    if( get_cookie( name ) ) {
+        document.cookie = name + "=" +
+            ((path) ? ";path="+path:"")+
+            ((domain)?";domain="+domain:"") +
+            ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+    }
+}
+
+function get_cookie(name){
+    return document.cookie.split(';').some(c => {
+        return c.trim().startsWith(name + '=');
+    });
+}
+
+function updateName() {
+    document.cookie.split(';').forEach(function(key, index, obj) {
+        let keyname = key.split('=');
+        if (keyname[0] === 'checklist') {
+            document.getElementById('title').innerHTML = keyname[1].charAt(0).toUpperCase() + keyname[1].slice(1);
+            document.title = `WebChecklist — ${keyname[1].charAt(0).toUpperCase() + keyname[1].slice(1)}`;
+        }
+    });
+}
 
 function submitOnEnter(event) {
     if (event.keyCode === 13) {
@@ -94,6 +125,7 @@ function loadList() {
     request.open('GET', base + '/api', true);
     request.onload  = function () {
         let data = JSON.parse(this.response);
+        if (data.logout === true) window.location.href = "/login";
         if (lastRequest === this.response && !document.hidden) return;
         document.getElementById("myUL").innerHTML = '';
         lastRequest = this.response;
@@ -108,6 +140,7 @@ function loadList() {
                 li.classList.add("checked");
 
             addDelete(li);
+            updateName();
         });
         addOnClick();
     }

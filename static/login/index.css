@@ -1,0 +1,16 @@
+.addBtn {
+    margin-left: 0;
+}
+
+.loginDiv {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+.login-form {
+    display: table-cell;
+    vertical-align: middle;
+}
