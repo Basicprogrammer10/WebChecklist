@@ -14,9 +14,9 @@
 </div>
 
 <div class="loginDiv">
-    <form class="login-form" method="post">
+    <form class="login-form" method="post" name="form">
         <input autofocus="true" class="login-username" placeholder="Checklist Name" required="true" name="checklist" type="text"/>
-        <input class="addBtn" type="submit" value="🔑" class="login-submit" />
+        <span class="addBtn" onclick="form.submit()">🔑</span>
     </form>
 </div>
 

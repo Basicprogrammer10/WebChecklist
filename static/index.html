@@ -10,23 +10,18 @@
 <body>
 <div id="myDIV" class="header">
     <h2 class="top" id="title">WebChecklist</h2>
-    <br />
-    <button onclick="logOut()">LOGOUT</button>
 </div>
 
 <ul id="myUL">
-    <li>Load Checklist</li>
+    <li>Load Checklist...</li>
 </ul>
 
-<label for="myInput"></label><input id="myInput" onkeypress="submitOnEnter(event)" placeholder="Title..." type="text"/>
+<label for="myInput"></label><input id="myInput" onkeypress="submitOnEnter(event)" placeholder="Title..." autofocus="true" type="text"/>
 <span onclick="newElement()" class="addBtn">➕</span>
 
-<div class="outerConnection">
-    <div class="lostConnection" id="connection" style="display: none">Lost Connection</div>
-</div>
-
 <div class="footer">
-    <p>2021 Connor S.</p>
+    <p class="footer-content">2021 Connor S.</p>
+    <button class="logOut footer-content" onclick="logOut()">🚪</button>
 </div>
 
 <script src="index.js"></script>
