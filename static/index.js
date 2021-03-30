@@ -1,5 +1,7 @@
 const base = "";
 
+var debug = 'f';
+
 let lastRequest;
 let close = document.getElementsByClassName("close");
 let Nodes = document.getElementsByTagName("LI");
@@ -92,7 +94,7 @@ function deleteItem(name) {
 function loadList() {
     let request = new XMLHttpRequest();
     request.open('GET', base + '/api', true);
-    request.onload = function () {
+    request.onload  = function () {
         let data = JSON.parse(this.response);
         if (lastRequest === this.response && !document.hidden) return;
         document.getElementById("myUL").innerHTML = '';

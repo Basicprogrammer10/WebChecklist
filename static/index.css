@@ -126,6 +126,12 @@ input {
     background-color: #bbb;
 }
 
+.outerConnection {
+    position: fixed;
+    width:100%;
+    bottom: 10%;
+}
+
 .footer {
     position: fixed;
     left: 0;
@@ -134,4 +140,20 @@ input {
     background-color: #1a1a1d;
     text-align: center;
     color: #a0a0a0;
+}
+
+.lostConnection {
+    display: table;
+    text-align: center;
+    margin: 0 auto;
+    border: 1px solid #ea3943;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgba(234, 57, 67, 0.50);
+    color: #FDBCC0;
+    font-size: 150%;
+}
+
+.hidden {
+    display: none;
 }
