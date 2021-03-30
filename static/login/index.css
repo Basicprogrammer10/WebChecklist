@@ -4,7 +4,7 @@
 
 .loginDiv {
     display: table;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100%;
@@ -13,4 +13,9 @@
 .login-form {
     display: table-cell;
     vertical-align: middle;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
 }
