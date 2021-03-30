@@ -5,14 +5,12 @@ const fs = require('fs');
 
 const config = require('./config.json');
 const app = express();
+if (config.serveStatic) app.use(express.static('./../static'));
 app.use(rateLimit({windowMs: 1000, max: 10}));
 app.use(bodyParser.json());
 
-
-app.use(express.static('./../static'));
-
 app.get('/api', function (req, res) {
-    console.log(`🌐 GET: /api ${req.ip}`);
+    console.log(`[${debugTime()}] 🌐 GET: /api ${req.ip}`);
 
     fs.readFile(config.data, 'utf8' , (err, data) => {
         if (err) return;
@@ -21,7 +19,7 @@ app.get('/api', function (req, res) {
 });
 
 app.post('/api', function (req, res) {
-    console.log(`🌐 POST: /api ${req.ip}`);
+    console.log(`[${debugTime()}] 🌐 POST: /api ${req.ip}`);
 
     let item = {
         name: makeName(req.body.name),
@@ -52,7 +50,7 @@ app.post('/api', function (req, res) {
 });
 
 app.delete('/api', function (req, res) {
-    console.log(`🌐 DELETE: /api ${req.ip}`);
+    console.log(`[${debugTime()}] 🌐 DELETE: /api ${req.ip}`);
 
     let item = {
         name: req.body.name
@@ -77,9 +75,8 @@ app.delete('/api', function (req, res) {
     res.send();
 });
 
-function makeName(name) {
-    return name.split('×')[0];
-}
+function makeName(name) { return name.split('×')[0]; }
+function debugTime() { return new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''); }
 
 module.exports = {
     start: function () {

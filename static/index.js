@@ -1,7 +1,5 @@
 const base = "";
 
-var debug = 'f';
-
 let lastRequest;
 let close = document.getElementsByClassName("close");
 let Nodes = document.getElementsByTagName("LI");
