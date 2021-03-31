@@ -11,14 +11,14 @@ module.exports = function(app, config) {
             return;
         }
 
-        fs.readFile(config.data, 'utf8' , (err, data) => {
+        fs.readFile(config.data.data, 'utf8' , (err, data) => {
             if (err) return;
             let oldFile = JSON.parse(data);
             let checklist = makeCookie(req.cookies.checklist);
             if (oldFile[checklist] === undefined) {
-                res.send({'new': true, 'template': config.defaultData});
-                oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.defaultData + '}'), oldFile);
-                fs.writeFile(config.data, JSON.stringify(oldFile), function (err) {
+                res.send({'new': true, 'template': config.data.defaultData});
+                oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
+                fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
                     if (err) return;
                     console.log("🦈 Updated 'Database'");
                 });
@@ -37,13 +37,13 @@ module.exports = function(app, config) {
         }
         console.log(item);
 
-        fs.readFile(config.data, 'utf8' , (err, data) => {
+        fs.readFile(config.data.data, 'utf8' , (err, data) => {
             if (err) return;
             let addNew = true;
             let checklist = makeCookie(req.cookies.checklist);
             let oldFile = JSON.parse(data);
 
-            if (oldFile[checklist] === undefined) oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.defaultData + '}'), oldFile);
+            if (oldFile[checklist] === undefined) oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
 
             oldFile[checklist].forEach(key => {
                 if (key.name === item.name) {
@@ -54,7 +54,7 @@ module.exports = function(app, config) {
 
             if (addNew) oldFile[checklist].push(item);
 
-            fs.writeFile(config.data, JSON.stringify(oldFile), function (err) {
+            fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
                 if (err) return;
                 console.log("🦈 Updated 'Database'");
             });
@@ -79,7 +79,7 @@ module.exports = function(app, config) {
         }
         console.log(item);
 
-        fs.readFile(config.data, 'utf8' , (err, data) => {
+        fs.readFile(config.data.data, 'utf8' , (err, data) => {
             if (err) return;
             let oldFile = JSON.parse(data);
 
@@ -89,7 +89,7 @@ module.exports = function(app, config) {
                 }
             });
 
-            fs.writeFile(config.data, JSON.stringify(oldFile), function (err) {
+            fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
                 if (err) return;
                 console.log("🦈 Updated 'Database'");
             });
