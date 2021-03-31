@@ -2,6 +2,8 @@ const rateLimit = require("express-rate-limit");
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
 
 const config = require('./../config/config.json');
 const app = express();
@@ -17,6 +19,15 @@ module.exports = {
     start: function () {
         app.listen(config.server.port, config.server.ip, function () {
             console.log(`🐍 Serving http://${config.server.ip}:${config.server.port}/`);
+        });
+    },
+    startSsl: function () {
+        https.createServer({
+            key: fs.readFileSync(config.server.ssl.key),
+            cert: fs.readFileSync(config.server.ssl.cert)
+        }, app)
+        .listen(config.server.port, config.server.ip, function () {
+            console.log(`🐍 Serving https://${config.server.ip}:${config.server.port}/`);
         });
     }
 }
