@@ -5,7 +5,7 @@ const express = require('express');
 
 const config = require('./../config/config.json');
 const app = express();
-if (config.serveStatic) app.use(express.static('./../static'));
+if (config.server.serveStatic) app.use(express.static('./../static'));
 app.use(rateLimit({windowMs: 1000, max: 10}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
