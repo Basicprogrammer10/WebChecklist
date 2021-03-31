@@ -60,12 +60,11 @@ ul li.checked::before {
 }
 
 .top {
-    margin-left: auto;
+    margin-left: 0;
     display: inline;
     text-align: center;
     vertical-align: middle;
     font-size: 38px;
-    padding-left: 44px;
 }
 
 .close {
@@ -191,4 +190,17 @@ img.footer-content {
     margin-left: auto;
     height: 100%;
     cursor: pointer;
+    width: 44px;
+}
+
+.amount {
+    width: 76px;
+    background-color: #2a3e8d;
+    border-radius: 8px;
+    float: left;
+    font-size: 25px;
+    margin-top: 0px;
+    text-align: center;
+    border: 1px solid #3861fb;
+    padding: 5px;
 }

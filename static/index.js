@@ -17,6 +17,7 @@ list.addEventListener('click', function (ev) {
         let checked = false;
         if (ev.target.classList.contains('checked')) checked = true;
         ev.target.classList.toggle('checked');
+        updateDone();
         updateDatabase(ev.target.innerText.replace("×", '').replace("\n", ''), !checked);
     }
 }, false);
@@ -27,7 +28,6 @@ setInterval(loadList, 5000)
 function logOut() {
     delete_cookie('checklist', '/', window.location.hostname);
     window.location.href = "/login";
-
 }
 
 function delete_cookie( name, path, domain ) {
@@ -43,6 +43,22 @@ function get_cookie(name){
     return document.cookie.split(';').some(c => {
         return c.trim().startsWith(name + '=');
     });
+}
+
+function pad(n, width, z) {
+    z = z || '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+
+function updateDone() {
+    let nums = document.getElementById("myUL");
+    let listItem = nums.getElementsByTagName("li");
+    let total = listItem.length;
+    let done = 0;
+
+    for (let i=0; i < listItem.length; i++) { if (listItem[i].classList.contains('checked')) done++; }
+    document.getElementById('amount').innerText = `${pad(Math.round(done/total*100), 3)}%`;
 }
 
 function updateName() {
@@ -149,6 +165,7 @@ function loadList() {
 
             addDelete(li);
             updateName();
+            updateDone();
         });
         addOnClick();
     }
