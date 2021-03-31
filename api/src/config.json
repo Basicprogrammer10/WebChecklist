@@ -2,5 +2,5 @@
   "port": "8080",
   "serveStatic": true,
   "data": "./data.json",
-  "defaultData": "[{\"name\": \"Hello World\", \"checked\": true}]"
+  "defaultData": "[{\"name\": \"Hello World! 👋🌎\", \"checked\": false}]"
 }

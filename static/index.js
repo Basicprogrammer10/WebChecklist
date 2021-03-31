@@ -22,7 +22,7 @@ list.addEventListener('click', function (ev) {
 }, false);
 
 loadList();
-setInterval(loadList, 1000)
+setInterval(loadList, 5000)
 
 function logOut() {
     delete_cookie('checklist', '/', window.location.hostname);
@@ -49,8 +49,8 @@ function updateName() {
     document.cookie.split(';').forEach(function(key, index, obj) {
         let keyname = key.split('=');
         if (keyname[0] === 'checklist') {
-            document.getElementById('title').innerHTML = keyname[1].charAt(0).toUpperCase() + keyname[1].slice(1);
-            document.title = `WebChecklist — ${keyname[1].charAt(0).toUpperCase() + keyname[1].slice(1)}`;
+            document.getElementById('title').innerHTML = decodeURI(keyname[1].charAt(0).toUpperCase() + keyname[1].slice(1));
+            document.title = decodeURI(`WebChecklist — ${keyname[1].charAt(0).toUpperCase() + keyname[1].slice(1)}`);
         }
     });
 }
@@ -77,12 +77,13 @@ function newElement() {
     let inputValue = document.getElementById("myInput").value;
     let t = document.createTextNode(inputValue);
     li.appendChild(t);
-    if (inputValue === '') return;
+    if (inputValue === '' ) return;
 
     document.getElementById("myUL").appendChild(li);
     addDelete(li);
     updateDatabase(inputValue, false);
     document.getElementById("myInput").value = "";
+    window.scrollTo(0,document.body.scrollHeight);
 }
 
 function addDelete(li) {
@@ -125,7 +126,14 @@ function loadList() {
     request.open('GET', base + '/api', true);
     request.onload  = function () {
         let data = JSON.parse(this.response);
-        if (data.logout === true) window.location.href = "/login";
+        if (data.logout) window.location.href = "/login";
+        if (data.new) {
+            let li = document.createElement("li");
+            li.appendChild(document.createTextNode(JSON.parse(data.template)[0].name));
+            document.getElementById("myUL").appendChild(li);
+            addDelete(li);
+            return;
+        }
         if (lastRequest === this.response && !document.hidden) return;
         document.getElementById("myUL").innerHTML = '';
         lastRequest = this.response;

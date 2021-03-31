@@ -1,5 +1,7 @@
 .addBtn {
     margin-left: 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .loginDiv {
@@ -18,4 +20,19 @@
 .header {
     position: fixed;
     width: 100%;
+}
+
+.footer {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height: auto;
+    text-align: center;
+    display: inline-block;
+}
+
+p.footer-content {
+    margin-left: 0;
+    margin-bottom: 0;
 }

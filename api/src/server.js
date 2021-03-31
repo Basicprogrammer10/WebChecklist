@@ -26,7 +26,8 @@ app.get('/api', function (req, res) {
         let oldFile = JSON.parse(data);
         let checklist = req.cookies.checklist;
         if (oldFile[checklist] === undefined) {
-            oldFile = Object.assign(JSON.parse('{"' + checklist + '": [{"name":"Welcome","checked":false}]}'), oldFile);
+            res.send({'new': true, 'template': config.defaultData});
+            oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.defaultData + '}'), oldFile);
             fs.writeFile(config.data, JSON.stringify(oldFile), function (err) {
                 if (err) return;
                 console.log("🦈 Updated 'Database'");
@@ -52,7 +53,7 @@ app.post('/api', function (req, res) {
         let checklist = req.cookies.checklist;
         let oldFile = JSON.parse(data);
 
-        if (oldFile[checklist] === undefined) oldFile = Object.assign(JSON.parse('{"' + checklist + '": [{"name":"Welcome","checked":false}]}'), oldFile);
+        if (oldFile[checklist] === undefined) oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.defaultData + '}'), oldFile);
 
         oldFile[checklist].forEach(key => {
             if (key.name === item.name) {
