@@ -1,6 +1,6 @@
 const base = "";
 
-let lastRequest;
+let socket = new WebSocket("ws://" + window.location.href.split('/')[2]);
 let close = document.getElementsByClassName("close");
 let Nodes = document.getElementsByTagName("LI");
 for (let i = 0; i < Nodes.length; i++) {
@@ -22,5 +22,15 @@ list.addEventListener('click', function (ev) {
     }
 }, false);
 
-loadList();
-setInterval(loadList, 5000)
+socket.onopen = function(e) { loadList(); };
+socket.onmessage = function(event) {
+    console.log(event.data);
+    let data = JSON.parse(event.data);
+    if (data['logout']) logOut();
+    if (data['doReload']) loadList();
+    if (data['type'] === 'updateList') {
+        if (data['checklist'] !== getCookie('checklist')) return;
+        updateListFromLoad(data.data);
+        console.log(data.data);
+    }
+};

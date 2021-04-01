@@ -1,99 +1,116 @@
 const {makeCookie, debugTime, makeName} = require("./common");
 const fs = require('fs');
 
-module.exports = function(app, config) {
-    app.get('/api', function (req, res) {
-        console.log(`[${debugTime()}] 🌐 GET: /api ${req.ip}`);
-        console.log(makeCookie(req.cookies.checklist));
+module.exports = {
+    rest: function(app, config) {
+        app.post('/login', function (req, res) {
+            console.log(`[${debugTime()}] 🌐 POST: /login ${req.ip}`);
+            console.log(req.body);
 
-        if (makeCookie(req.cookies.checklist) === undefined) {
-            res.send({'logout': true});
-            return;
-        }
-
-        fs.readFile(config.data.data, 'utf8' , (err, data) => {
-            if (err) return;
-            let oldFile = JSON.parse(data);
-            let checklist = makeCookie(req.cookies.checklist);
-            if (oldFile[checklist] === undefined) {
-                res.send({'new': true, 'template': config.data.defaultData});
-                oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
-                fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
-                    if (err) return;
-                    console.log("🦈 Updated 'Database'");
-                });
-            }
-
-            res.send(JSON.parse(data)[makeCookie(req.cookies.checklist)]);
+            res.cookie('checklist', makeCookie(req.body.checklist.toLowerCase()));
+            res.redirect('/');
         });
-    });
+    },
+    webSocket: function(wsServer, config) {
+        let sockets = [];
+        wsServer.on('connection', socket => {
+            socket.on('message', message => console.log("🔌 WebSocket: " + message));
 
-    app.post('/api', function (req, res) {
-        console.log(`[${debugTime()}] 🌐 POST: /api ${req.ip}`);
+            sockets.push(socket);
 
-        let item = {
-            name: makeName(req.body.name),
-            checked: req.body.checked
-        }
-        console.log(item);
+            socket.on('message', function(msg) {
+                let data = JSON.parse(msg);
 
-        fs.readFile(config.data.data, 'utf8' , (err, data) => {
-            if (err) return;
-            let addNew = true;
-            let checklist = makeCookie(req.cookies.checklist);
-            let oldFile = JSON.parse(data);
+                if (data['action'] === 'get') {
+                    console.log(`[${debugTime()}] 🌐 GET: /api`);
+                    console.log(makeCookie(data['cookie']));
 
-            if (oldFile[checklist] === undefined) oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
+                    if (makeCookie(data['cookie']) === "undefined") {
+                        socket.send(JSON.stringify({'logout': true}));
+                        return;
+                    }
+                    fs.readFile(config.data.data, 'utf8' , (err, filedata) => {
+                        if (err) return;
+                        let oldFile = JSON.parse(filedata);
+                        let checklist = makeCookie(data['cookie']);
+                        if (oldFile[checklist] === undefined) {
+                            socket.send(JSON.stringify({'new': true, 'template': config.data.defaultData}));
+                            oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
+                            fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
+                                if (err) return;
+                                console.log("🦈 Updated 'Database'");
+                            });
+                        }
 
-            oldFile[checklist].forEach(key => {
-                if (key.name === item.name) {
-                    key.checked = item.checked;
-                    addNew = false;
+                        socket.send(JSON.stringify({type: "updateList", "checklist": checklist, data: JSON.parse(filedata)[makeCookie(data['cookie'])]}));
+                    });
+                }
+
+                if (data['action'] === 'update') {
+                    console.log(`[${debugTime()}] 🌐 POST: /api`);
+
+                    let item = {
+                        name: makeName(data.data.name),
+                        checked: data.data.checked
+                    }
+                    console.log(item);
+
+                    fs.readFile(config.data.data, 'utf8' , (err, Filedata) => {
+                        if (err) return;
+                        let addNew = true;
+                        let checklist = makeCookie(data['cookie']);
+                        let oldFile = JSON.parse(Filedata);
+
+                        if (oldFile[checklist] === undefined) oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
+
+                        oldFile[checklist].forEach(key => {
+                            if (key.name === item.name) {
+                                key.checked = item.checked;
+                                addNew = false;
+                            }
+                        });
+
+                        if (addNew) oldFile[checklist].push(item);
+
+                        fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
+                            if (err) return;
+                            console.log("🦈 Updated 'Database'");
+                            sockets.forEach(s => s.send('{"type": "updateList", "checklist": "' + checklist + '", "data": ' + JSON.stringify(oldFile[checklist]) + '}'));
+                        });
+                    });
+                }
+
+                if (data['action'] === 'delete') {
+                    console.log(`[${debugTime()}] 🌐 DELETE: /api`);
+                    let checklist = makeCookie(data['cookie']);
+
+                    let item = {
+                        name: data.data.name
+                    }
+                    console.log(item);
+
+                    fs.readFile(config.data.data, 'utf8' , (err, Filedata) => {
+                        if (err) return;
+                        let oldFile = JSON.parse(Filedata);
+
+                        oldFile[checklist].forEach(function(key, index, object) {
+                            if (key.name === item.name) {
+                                object.splice(index, 1);
+                            }
+                        });
+
+                        fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
+                            if (err) return;
+                            console.log("🦈 Updated 'Database'");
+                            sockets.forEach(s => s.send('{"type": "updateList", "checklist": "' + checklist + '", "data": ' + JSON.stringify(oldFile[checklist]) + '}'));
+                        });
+                    })
                 }
             });
 
-            if (addNew) oldFile[checklist].push(item);
-
-            fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
-                if (err) return;
-                console.log("🦈 Updated 'Database'");
+            socket.on('close', function() {
+                sockets = sockets.filter(s => s !== socket);
             });
-        })
-        res.send();
-    });
-
-    app.post('/login', function (req, res) {
-        console.log(`[${debugTime()}] 🌐 POST: /login ${req.ip}`);
-        console.log(req.body);
-
-        res.cookie('checklist', req.body.checklist.toLowerCase());
-        res.redirect('/');
-    });
-
-    app.delete('/api', function (req, res) {
-        console.log(`[${debugTime()}] 🌐 DELETE: /api ${req.ip}`);
-        let checklist = makeCookie(req.cookies.checklist);
-
-        let item = {
-            name: req.body.name
-        }
-        console.log(item);
-
-        fs.readFile(config.data.data, 'utf8' , (err, data) => {
-            if (err) return;
-            let oldFile = JSON.parse(data);
-
-            oldFile[checklist].forEach(function(key, index, object) {
-                if (key.name === item.name) {
-                    object.splice(index, 1);
-                }
-            });
-
-            fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
-                if (err) return;
-                console.log("🦈 Updated 'Database'");
-            });
-        })
-        res.send();
-    });
+        });
+    }
 }

@@ -18,6 +18,12 @@ function get_cookie(name){
     });
 }
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 function pad(n, width, z) {
     z = z || '0';
     n = n + '';
@@ -96,56 +102,41 @@ function addDelete(li) {
 }
 
 function updateDatabase(name, checked) {
-    let url = base + "/api";
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-
-    xhr.send(JSON.stringify({"name": name, "checked": checked}));
+        socket.send(JSON.stringify({"action": "update", "cookie": getCookie('checklist'), "data": {"name": name, "checked": checked}}));
 }
 
 function deleteItem(name) {
-    let url = base + "/api";
-    let xhr = new XMLHttpRequest();
-    xhr.open("DELETE", url, true);
-
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-
-    xhr.send(JSON.stringify({"name": name}));
+    socket.send(JSON.stringify({"action": "delete", "cookie": getCookie('checklist'), "data": {"name": name}}));
 }
 
 function loadList() {
-    let request = new XMLHttpRequest();
-    request.open('GET', base + '/api', true);
-    request.onload  = function () {
-        let data = JSON.parse(this.response);
-        if (data.logout) window.location.href = "/login";
-        if (data.new) {
-            let li = document.createElement("li");
-            li.appendChild(document.createTextNode(JSON.parse(data.template)[0].name));
-            document.getElementById("myUL").appendChild(li);
-            addDelete(li);
-            return;
-        }
-        if (lastRequest === this.response && !document.hidden) return;
-        document.getElementById("myUL").innerHTML = '';
-        lastRequest = this.response;
-        data.forEach(element => {
-            let li = document.createElement("li");
-            let t = document.createTextNode(element.name);
-            li.appendChild(t);
+    let cookieInfo = getCookie('checklist');
+    socket.send('{"action": "get", "cookie": "' + cookieInfo + '"}');
+}
 
-            document.getElementById("myUL").appendChild(li);
-
-            if (element.checked)
-                li.classList.add("checked");
-
-            addDelete(li);
-            updateName();
-            updateDone();
-        });
-        addOnClick();
+function updateListFromLoad(data) {
+    if (data.logout) window.location.href = "/login";
+    if (data.new) {
+        let li = document.createElement("li");
+        li.appendChild(document.createTextNode(JSON.parse(data.template)[0].name));
+        document.getElementById("myUL").appendChild(li);
+        addDelete(li);
+        return;
     }
-    request.send();
+    document.getElementById("myUL").innerHTML = '';
+    data.forEach(element => {
+        let li = document.createElement("li");
+        let t = document.createTextNode(element.name);
+        li.appendChild(t);
+
+        document.getElementById("myUL").appendChild(li);
+
+        if (element.checked)
+            li.classList.add("checked");
+
+        addDelete(li);
+        updateName();
+        updateDone();
+        addOnClick();
+    });
 }

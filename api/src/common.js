@@ -3,8 +3,9 @@ module.exports = {
     debugTime: function () { return new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''); },
     makeCookie: function (name) {
         if (name === undefined) return undefined;
-        let working = name;
-        if (working[working.length-1] === ' ') working = working.slice(0, -1);
+        let working = decodeURI(name);
+        let lastChar = working[working.length-1];
+        if (lastChar === ' ' || lastChar === '%20') working = working.slice(0, -1);
         return working;
     }
 }
