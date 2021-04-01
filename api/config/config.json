@@ -4,7 +4,7 @@
     "ip": "0.0.0.0",
     "static": {
       "serveStatic": true,
-      "staticFolder": "./static"
+      "staticFolder": "./../static"
     },
     "ssl": {
       "enabled": false,
