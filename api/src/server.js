@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const config = require('./../config/config.json');
 const app = express();
-if (config.server.serveStatic) app.use(express.static('./../static'));
+if (config.server.static.serveStatic) app.use(express.static(config.server.static.staticFolder));
 app.use(rateLimit({windowMs: 1000, max: 10}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

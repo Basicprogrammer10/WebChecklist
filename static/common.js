@@ -75,6 +75,7 @@ function newElement() {
     document.getElementById("myUL").appendChild(li);
     addDelete(li);
     updateDatabase(inputValue, false);
+    updateDone();
     document.getElementById("myInput").value = "";
     window.scrollTo(0,document.body.scrollHeight);
 }

@@ -2,7 +2,10 @@
   "server": {
     "port": 8080,
     "ip": "0.0.0.0",
-    "serveStatic": true,
+    "static": {
+      "serveStatic": true,
+      "staticFolder": "./../static"
+    },
     "ssl": {
       "enabled": false,
       "key": "./certificate/server.key",
