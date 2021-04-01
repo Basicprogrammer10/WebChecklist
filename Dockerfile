@@ -2,10 +2,10 @@ FROM node:14
 
 WORKDIR /usr/src/WebChecklist
 
-COPY package.json ./
+COPY api/package.json ./
 RUN npm install
 
 COPY api/ .
-COPY static/ stadic/
+COPY static/ static/
 
-CMD [ "node", "src/index.js" ]
+CMD [ "node", "src" ]
