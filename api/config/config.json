@@ -4,7 +4,7 @@
     "ip": "0.0.0.0",
     "serveStatic": true,
     "ssl": {
-      "enabled": true,
+      "enabled": false,
       "key": "./certificate/server.key",
       "cert": "./certificate/server.cert"
     }
