@@ -24,17 +24,19 @@ module.exports = {
                         socket.send(JSON.stringify({'logout': true}));
                         return;
                     }
+
                     fs.readFile(config.data.data, 'utf8' , (err, filedata) => {
                         if (err) return;
                         let oldFile = JSON.parse(filedata);
                         let checklist = makeCookie(data['cookie']);
                         if (oldFile[checklist] === undefined) {
-                            socket.send(JSON.stringify({'new': true, 'template': config.data.defaultData}));
+                            socket.send(JSON.stringify({data: {new: true, template: config.data.defaultData}, type: "updateList", checklist: checklist}));
                             oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
                             fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
                                 if (err) return;
                                 console.log("🦈 Updated 'Database'");
                             });
+                            return;
                         }
 
                         socket.send(JSON.stringify({type: "updateList", "checklist": checklist, data: JSON.parse(filedata)[makeCookie(data['cookie'])]}));

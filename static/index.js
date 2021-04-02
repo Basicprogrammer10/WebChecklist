@@ -22,7 +22,9 @@ list.addEventListener('click', function (ev) {
     }
 }, false);
 
-createWebSocket();
+window.onload = function() {
+    createWebSocket();
+}
 
 function createWebSocket() {
     socket = new WebSocket("ws://" + window.location.href.split('/')[2]);
@@ -30,8 +32,8 @@ function createWebSocket() {
     socket.onopen = function (e) {
         loadList();
         setBackgroundBlur(false);
-
     };
+
     socket.onmessage = function (event) {
         setBackgroundBlur(false);
         let data = JSON.parse(event.data);
@@ -44,6 +46,7 @@ function createWebSocket() {
     };
 
     socket.onclose = function (event) {
+        if (event.wasClean) return;
         setBackgroundBlur(true)
         setTimeout(createWebSocket, 5000);
     }

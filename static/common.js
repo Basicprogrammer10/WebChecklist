@@ -146,6 +146,7 @@ function updateListFromLoad(data) {
         li.appendChild(document.createTextNode(JSON.parse(data.template)[0].name));
         document.getElementById("myUL").appendChild(li);
         addDelete(li);
+        loadList();
         return;
     }
     document.getElementById("myUL").innerHTML = '';
