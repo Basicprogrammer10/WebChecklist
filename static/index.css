@@ -15,6 +15,7 @@ body {
 ul {
     padding: 0;
     margin: 75px 0 74px 0;
+    transition-duration: 1s;
 }
 
 ul li {
@@ -84,6 +85,7 @@ ul li.checked::before {
 .header {
     border-bottom: 1px solid #2D2E32;
     background-color: #1b1c20;
+    transition-duration: 1s;
     padding: 15px 15px;
     color: white;
     text-align: center;
@@ -141,7 +143,23 @@ input {
 .outerConnection {
     position: fixed;
     width:100%;
-    bottom: 10%;
+    bottom: 50%;
+    transform: translate(0, -50%);
+    z-index: 1;
+}
+
+.lostConnection {
+    transition-duration: 1s;
+    display: none;
+    text-align: center;
+    margin: 0 auto;
+    border: 1px solid #ea3943;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgba(234, 57, 67, 0.75);
+    color: #FDBCC0;
+    font-size: 150%;
+    opacity: 0;
 }
 
 .footer {
@@ -204,4 +222,17 @@ img.footer-content {
     text-align: center;
     border: 1px solid #3861fb;
     padding: 5px;
+}
+
+.overlay {
+    transition-duration: 1s;
+    color: black;
+    background: black;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 75%;
+    transition: 1s;
+    display: none;
 }

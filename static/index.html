@@ -31,19 +31,22 @@
     <title>WebChecklist</title>
 </head>
 
-<body>
+<body id="body">
+<span class="overlay" id="overlay"></span>
+
 <div id="myDIV" class="header">
     <span class="amount" id="amount"> </span>
     <h2 class="top" id="title">Checklist</h2>
     <button class="logOut footer-content" onclick="logOut()">🚪</button>
 </div>
 
-<ul id="myUL">
-</ul>
+<ul id="myUL"></ul><br />
 
-<br />
+<div class="outerConnection">
+    <div class="lostConnection" id="connection">Lost Connection</div>
+</div>
 
-<div class="footer">
+<div class="footer" id="footer">
     <label for="myInput"></label>
     <input id="myInput" onkeypress="submitOnEnter(event)" placeholder="Title..." autofocus="true" type="text"/>
     <span onclick="newElement()" class="addBtn">➕</span>

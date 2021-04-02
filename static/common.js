@@ -3,6 +3,31 @@ function logOut() {
     window.location.href = "/login";
 }
 
+function setBackgroundBlur(value) {
+    if (value) {
+        document.getElementById("connection").style.display = "table";
+        document.getElementById("overlay").style.display = "block";
+        document.getElementById("myUL").style.filter = "blur(8px)";
+        document.getElementById("footer").style.filter = "blur(8px)";
+        document.getElementById("myDIV").style.filter = "blur(8px)";
+        document.getElementById("connection").style.opacity = "100%";
+        document.body.style.pointerEvents = "none";
+        document.body.style.position = "fixed";
+        document.body.style.top = `-${window.scrollY}px`;
+
+        return;
+    }
+    document.getElementById("connection").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("myUL").style.filter = "";
+    document.getElementById("footer").style.filter = "";
+    document.getElementById("myDIV").style.filter = "";
+    document.getElementById("connection").style.opacity = "0";
+    document.body.style.pointerEvents = "auto";
+    document.body.style.position = "";
+    document.body.style.top = '';
+}
+
 function delete_cookie( name, path, domain ) {
     if( get_cookie( name ) ) {
         document.cookie = name + "=" +

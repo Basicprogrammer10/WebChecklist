@@ -30,7 +30,7 @@ module.exports = {
         });
 
     },
-    startSsl: function () {//TODO: Add WebSockets to SSL
+    startSsl: function () {
         https.createServer({
             key: fs.readFileSync(config.server.ssl.key),
             cert: fs.readFileSync(config.server.ssl.cert)
