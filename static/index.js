@@ -34,19 +34,16 @@ function createWebSocket() {
     };
     socket.onmessage = function (event) {
         setBackgroundBlur(false);
-        console.log(event.data);
         let data = JSON.parse(event.data);
         if (data['logout']) logOut();
         if (data['doReload']) loadList();
         if (data['type'] === 'updateList') {
             if (data['checklist'] !== getCookie('checklist')) return;
             updateListFromLoad(data.data);
-            console.log(data.data);
         }
     };
 
     socket.onclose = function (event) {
-        if (!event.wasClean) return;
         setBackgroundBlur(true)
         setTimeout(createWebSocket, 5000);
     }

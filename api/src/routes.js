@@ -4,9 +4,7 @@ const fs = require('fs');
 module.exports = {
     rest: function(app, config) {
         app.post('/login', function (req, res) {
-            console.log(`[${debugTime()}] 🌐 POST: /login ${req.ip}`);
-            console.log(req.body);
-
+            console.log("🌐 Login Form: " + req.body.checklist.toLowerCase() + " IP: " + req.ip)
             res.cookie('checklist', makeCookie(req.body.checklist.toLowerCase()));
             res.redirect('/');
         });
@@ -14,7 +12,7 @@ module.exports = {
     webSocket: function(wsServer, config) {
         let sockets = [];
         wsServer.on('connection', socket => {
-            socket.on('message', message => console.log("🔌 WebSocket: " + message));
+            socket.on('message', message => console.log("🔌 WebSocket: " + message + " IP: " + socket._socket.remoteAddress));
 
             sockets.push(socket);
 
@@ -22,9 +20,6 @@ module.exports = {
                 let data = JSON.parse(msg);
 
                 if (data['action'] === 'get') {
-                    console.log(`[${debugTime()}] 🌐 GET: /api`);
-                    console.log(makeCookie(data['cookie']));
-
                     if (makeCookie(data['cookie']) === "undefined") {
                         socket.send(JSON.stringify({'logout': true}));
                         return;
@@ -47,13 +42,10 @@ module.exports = {
                 }
 
                 if (data['action'] === 'update') {
-                    console.log(`[${debugTime()}] 🌐 POST: /api`);
-
                     let item = {
                         name: makeName(data.data.name),
                         checked: data.data.checked
                     }
-                    console.log(item);
 
                     fs.readFile(config.data.data, 'utf8' , (err, Filedata) => {
                         if (err) return;
@@ -81,13 +73,9 @@ module.exports = {
                 }
 
                 if (data['action'] === 'delete') {
-                    console.log(`[${debugTime()}] 🌐 DELETE: /api`);
-                    let checklist = makeCookie(data['cookie']);
-
                     let item = {
                         name: data.data.name
                     }
-                    console.log(item);
 
                     fs.readFile(config.data.data, 'utf8' , (err, Filedata) => {
                         if (err) return;
