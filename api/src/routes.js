@@ -12,8 +12,8 @@ module.exports = {
     webSocket: function(wsServer, config) {
         let sockets = [];
         wsServer.on('connection', socket => {
+            if (!sockets.includes(socket)) console.log(`✔ WebSocket Connected IP: ${socket._socket.remoteAddress}`);
             socket.on('message', message => console.log("🔌 WebSocket: " + message + " IP: " + socket._socket.remoteAddress));
-
             sockets.push(socket);
 
             socket.on('message', function(msg) {
@@ -90,6 +90,7 @@ module.exports = {
             });
 
             socket.on('close', function() {
+                console.log(`❌ WebSocket Disconnected IP: ${socket._socket.remoteAddress}`)
                 sockets = sockets.filter(s => s !== socket);
             });
         });
