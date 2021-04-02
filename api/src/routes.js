@@ -1,4 +1,4 @@
-const {makeCookie, debugTime, makeName} = require("./common");
+const {makeCookie, saveAndSendWebSocket, makeName} = require("./common");
 const fs = require('fs');
 
 module.exports = {
@@ -63,16 +63,12 @@ module.exports = {
                         });
 
                         if (addNew) oldFile[checklist].push(item);
-
-                        fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
-                            if (err) return;
-                            console.log("🦈 Updated 'Database'");
-                            sockets.forEach(s => s.send('{"type": "updateList", "checklist": "' + checklist + '", "data": ' + JSON.stringify(oldFile[checklist]) + '}'));
-                        });
+                        saveAndSendWebSocket(oldFile, sockets, checklist, config);
                     });
                 }
 
                 if (data['action'] === 'delete') {
+                    let checklist = makeCookie(data['cookie']);
                     let item = {
                         name: data.data.name
                     }
@@ -86,12 +82,7 @@ module.exports = {
                                 object.splice(index, 1);
                             }
                         });
-
-                        fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
-                            if (err) return;
-                            console.log("🦈 Updated 'Database'");
-                            sockets.forEach(s => s.send('{"type": "updateList", "checklist": "' + checklist + '", "data": ' + JSON.stringify(oldFile[checklist]) + '}'));
-                        });
+                        saveAndSendWebSocket(oldFile, sockets, checklist, config);
                     })
                 }
             });
