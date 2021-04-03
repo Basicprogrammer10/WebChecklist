@@ -1,4 +1,7 @@
-GET http://localhost:8080/api/
-Accept: application/json
-Cookie: checklist=this;
+POST http://localhost:8080/login/
+Content-Type: application/json
+
+{
+  "checklist": "this"
+}
 ###
