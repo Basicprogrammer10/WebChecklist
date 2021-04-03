@@ -1,5 +1,5 @@
 window.addEventListener('load', () => {
-    registerSW();
+    registerSW().then();
 });
 
 async function registerSW() {

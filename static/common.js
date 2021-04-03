@@ -69,23 +69,23 @@ function updateDone() {
 }
 
 function updateName() {
-    document.cookie.split(';').forEach(function(key, index, obj) {
-        let keyname = key.split('=');
-        if (keyname[0] === 'checklist') {
-            document.getElementById('title').innerHTML = decodeURI(keyname[1].charAt(0).toUpperCase() + keyname[1].slice(1));
-            document.title = decodeURI(`WebChecklist — ${keyname[1].charAt(0).toUpperCase() + keyname[1].slice(1)}`);
+    document.cookie.split(';').forEach(function(key) {
+        let keyName = key.split('=');
+        if (keyName[0] === 'checklist') {
+            document.getElementById('title').innerHTML = decodeURI(keyName[1].charAt(0).toUpperCase() + keyName[1].slice(1));
+            document.title = decodeURI(`WebChecklist — ${keyName[1].charAt(0).toUpperCase() + keyName[1].slice(1)}`);
         }
     });
 }
 
 function submitOnEnter(event) {
-    if (event.keyCode === 13) {
+    if (event.key === 13) {
         newElement();
     }
 }
 
 function addOnClick() {
-    close = document.getElementsByClassName("close");
+    let close = document.getElementsByClassName("close");
     for (let i = 0; i < close.length; i++) {
         close[i].onclick = function () {
             let div = this.parentElement;

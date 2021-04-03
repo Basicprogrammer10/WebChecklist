@@ -6,12 +6,12 @@ const https = require('https');
 const ws = require("ws");
 const fs = require('fs');
 
-const wsServer = new ws.Server({ noServer: true });
+const wsServer = new ws.Server({noServer: true});
 const config = require('./../config/config.json');
 const app = express();
 if (config.server.static.serveStatic) app.use(express.static(config.server.static.staticFolder));
 app.use(rateLimit({windowMs: 1000, max: 10}));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
@@ -24,21 +24,21 @@ module.exports = {
             console.log(`🐍 Serving http://${config.server.ip}:${config.server.port}/`);
         })
             .on('upgrade', (request, socket, head) => {
-            wsServer.handleUpgrade(request, socket, head, socket => {
-                wsServer.emit('connection', socket, request);
+                wsServer.handleUpgrade(request, socket, head, socket => {
+                    wsServer.emit('connection', socket, request);
+                });
             });
-        });
 
     },
-    
+
     startSsl: function () {
         https.createServer({
             key: fs.readFileSync(config.server.ssl.key),
             cert: fs.readFileSync(config.server.ssl.cert)
         }, app)
-        .listen(config.server.port, config.server.ip, function () {
-            console.log(`🐍 Serving https://${config.server.ip}:${config.server.port}/`);
-        })
+            .listen(config.server.port, config.server.ip, function () {
+                console.log(`🐍 Serving https://${config.server.ip}:${config.server.port}/`);
+            })
             .on('upgrade', (request, socket, head) => {
                 wsServer.handleUpgrade(request, socket, head, socket => {
                     wsServer.emit('connection', socket, request);

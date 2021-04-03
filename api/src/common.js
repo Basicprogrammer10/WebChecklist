@@ -2,7 +2,6 @@ const fs = require('fs');
 
 module.exports = {
     makeName: function (name) { return name.split('×')[0]; },
-    debugTime: function () { return new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''); },
     makeCookie: function (name) {
         if (name === undefined) return undefined;
         let working = decodeURI(name);

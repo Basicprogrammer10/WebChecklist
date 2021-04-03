@@ -1,5 +1,3 @@
-const base = "";
-
 let socket = null;
 let close = document.getElementsByClassName("close");
 let Nodes = document.getElementsByTagName("LI");
@@ -29,7 +27,7 @@ window.onload = function() {
 function createWebSocket() {
     socket = new WebSocket("ws://" + window.location.href.split('/')[2]);
 
-    socket.onopen = function (e) {
+    socket.onopen = function () {
         loadList();
         setBackgroundBlur(false);
     };
@@ -51,7 +49,7 @@ function createWebSocket() {
         setTimeout(createWebSocket, 5000);
     }
 
-    socket.onerror = function (error) {
+    socket.onerror = function () {
         setBackgroundBlur(true);
         setTimeout(createWebSocket, 5000);
     };
