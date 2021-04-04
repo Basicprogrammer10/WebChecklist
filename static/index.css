@@ -142,7 +142,7 @@ input {
 
 .outerConnection {
     position: fixed;
-    width:100%;
+    width: 100%;
     bottom: 50%;
     transform: translate(0, -50%);
     z-index: 1;
@@ -218,7 +218,7 @@ img.footer-content {
     border-radius: 8px;
     float: left;
     font-size: 25px;
-    margin-top: 0px;
+    margin-top: 0;
     text-align: center;
     border: 1px solid #3861fb;
     padding: 5px;

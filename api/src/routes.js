@@ -1,11 +1,11 @@
-const {makeCookie, saveAndSendWebSocket, makeName} = require("./common");
+const common = require("./common");
 const fs = require('fs');
 
 module.exports = {
     rest: function (app) {
         app.post('/login', function (req, res) {
             console.log("🌐 Login Form: " + req.body.checklist.toLowerCase() + " IP: " + req.ip)
-            res.cookie('checklist', makeCookie(req.body.checklist.toLowerCase()));
+            res.cookie('checklist', common.makeCookie(req.body.checklist.toLowerCase()));
             res.redirect('/');
         });
     },
@@ -20,7 +20,7 @@ module.exports = {
                 let data = JSON.parse(msg);
 
                 if (data['action'] === 'get') {
-                    if (makeCookie(data['cookie']) === "undefined") {
+                    if (common.makeCookie(data['cookie']) === "undefined") {
                         socket.send(JSON.stringify({'logout': true}));
                         return;
                     }
@@ -28,7 +28,7 @@ module.exports = {
                     fs.readFile(config.data.data, 'utf8', (err, FileData) => {
                         if (err) return;
                         let oldFile = JSON.parse(FileData);
-                        let checklist = makeCookie(data['cookie']);
+                        let checklist = common.makeCookie(data['cookie']);
                         if (oldFile[checklist] === undefined) {
                             socket.send(JSON.stringify({
                                 data: {new: true, template: config.data.defaultData},
@@ -46,21 +46,21 @@ module.exports = {
                         socket.send(JSON.stringify({
                             type: "updateList",
                             "checklist": checklist,
-                            data: JSON.parse(FileData)[makeCookie(data['cookie'])]
+                            data: JSON.parse(FileData)[common.makeCookie(data['cookie'])]
                         }));
                     });
                 }
 
                 if (data['action'] === 'update') {
                     let item = {
-                        name: makeName(data.data.name),
+                        name: common.makeName(data.data.name),
                         checked: data.data.checked
                     }
 
                     fs.readFile(config.data.data, 'utf8', (err, FileData) => {
                         if (err) return;
                         let addNew = true;
-                        let checklist = makeCookie(data['cookie']);
+                        let checklist = common.makeCookie(data['cookie']);
                         let oldFile = JSON.parse(FileData);
 
                         if (oldFile[checklist] === undefined) oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
@@ -73,12 +73,12 @@ module.exports = {
                         });
 
                         if (addNew) oldFile[checklist].push(item);
-                        saveAndSendWebSocket(oldFile, sockets, checklist, config);
+                        common.saveAndSendWebSocket(oldFile, sockets, checklist, config);
                     });
                 }
 
                 if (data['action'] === 'delete') {
-                    let checklist = makeCookie(data['cookie']);
+                    let checklist = common.makeCookie(data['cookie']);
                     let item = {
                         name: data.data.name
                     }
@@ -92,7 +92,7 @@ module.exports = {
                                 object.splice(index, 1);
                             }
                         });
-                        saveAndSendWebSocket(oldFile, sockets, checklist, config);
+                        common.saveAndSendWebSocket(oldFile, sockets, checklist, config);
                     })
                 }
             });

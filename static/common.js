@@ -78,12 +78,6 @@ function updateName() {
     });
 }
 
-function submitOnEnter(event) {
-    if (event.key === 13) {
-        newElement();
-    }
-}
-
 function addOnClick() {
     let close = document.getElementsByClassName("close");
     for (let i = 0; i < close.length; i++) {

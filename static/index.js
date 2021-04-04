@@ -9,8 +9,7 @@ for (let i = 0; i < Nodes.length; i++) {
     Nodes[i].appendChild(span);
 }
 
-let list = document.querySelector('ul');
-list.addEventListener('click', function (ev) {
+document.querySelector('ul').addEventListener('click', function (ev) {
     if (ev.target.tagName === 'LI') {
         let checked = false;
         if (ev.target.classList.contains('checked')) checked = true;
@@ -19,6 +18,10 @@ list.addEventListener('click', function (ev) {
         updateDone();
     }
 }, false);
+
+document.getElementById('myInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') newElement();
+});
 
 window.onload = function() {
     createWebSocket();
