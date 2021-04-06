@@ -15,5 +15,10 @@
   "data": {
     "data": "./data/data.json",
     "defaultData": "[{\"name\": \"Hello World! 👋🌎\", \"checked\": false}]"
-  }
+  },
+  "log": {
+    "enabled": true,
+    "log": "./log/#.log"
+  },
+  "version": "0.2.6"
 }

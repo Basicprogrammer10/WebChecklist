@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports = {
     rest: function (app) {
         app.post('/login', function (req, res) {
-            console.log("🌐 Login Form: " + req.body.checklist.toLowerCase() + " IP: " + req.ip)
+            common.log("🌐 Login Form: " + req.body.checklist.toLowerCase() + " IP: " + req.ip);
             res.cookie('checklist', common.makeCookie(req.body.checklist.toLowerCase()));
             res.redirect('/');
         });
@@ -12,8 +12,8 @@ module.exports = {
     webSocket: function (wsServer, config) {
         let sockets = [];
         wsServer.on('connection', socket => {
-            if (!sockets.includes(socket)) console.log(`✔ WebSocket Connected IP: ${socket._socket.remoteAddress}`);
-            socket.on('message', message => console.log("🔌 WebSocket: " + message + " IP: " + socket._socket.remoteAddress));
+            if (!sockets.includes(socket)) common.log(`✔ WebSocket Connected IP: ${socket._socket.remoteAddress}`);
+            socket.on('message', message => common.log("🔌 WebSocket: " + message + " IP: " + socket._socket.remoteAddress));
             sockets.push(socket);
 
             socket.on('message', function (msg) {
@@ -38,7 +38,7 @@ module.exports = {
                             oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
                             fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
                                 if (err) return;
-                                console.log("🦈 Updated 'Database'");
+                                common.log("🦈 Updated 'Database'");
                             });
                             return;
                         }
@@ -98,7 +98,7 @@ module.exports = {
             });
 
             socket.on('close', function () {
-                console.log(`❌ WebSocket Disconnected IP: ${socket._socket.remoteAddress}`)
+                common.log(`❌ WebSocket Disconnected IP: ${socket._socket.remoteAddress}`)
                 sockets = sockets.filter(s => s !== socket);
             });
         });

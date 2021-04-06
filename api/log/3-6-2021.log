@@ -1,0 +1,7 @@
+[00:35:18] 🔌 WebSocket: {"action":"update","cookie":"this","data":{"name":"Hello World!","checked":false}} IP: 127.0.0.1
+[00:35:47] 🌠 Starting WebChecklist Server! v0.2.6
+[00:35:47] ✔ WebSocket Connected IP: 127.0.0.1
+[00:35:48] 🔌 WebSocket: {"action": "get", "cookie": "this"} IP: 127.0.0.1
+[00:35:56] 🔌 WebSocket: {"action":"update","cookie":"this","data":{"name":"Hello World","checked":false}} IP: 127.0.0.1
+[00:36:25] 🔌 WebSocket: {"action":"delete","cookie":"this","data":{"name":"Hello World!"}} IP: 127.0.0.1
+[00:36:32] 🔌 WebSocket: {"action":"update","cookie":"this","data":{"name":"Hello World","checked":false}} IP: 127.0.0.1

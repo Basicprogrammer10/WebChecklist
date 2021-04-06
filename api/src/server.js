@@ -43,6 +43,7 @@ module.exports = {
                 wsServer.handleUpgrade(request, socket, head, socket => {
                     wsServer.emit('connection', socket, request);
                 });
-            });
+            })
+            .on('ex');
     }
 }
