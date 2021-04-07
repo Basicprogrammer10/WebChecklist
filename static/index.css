@@ -5,6 +5,7 @@ body {
     background-color: #17171a;
     color: white;
     height: 100%;
+    width: 100%;
     scroll-behavior: smooth;
 }
 
