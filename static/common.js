@@ -3,6 +3,12 @@ function logOut() {
     window.location.href = "/login";
 }
 
+function removeAllEndSpaces(text) {
+    let working = text.replace(/ $/,'');
+    if (working.charAt(working.length - 1) === ' ') working = removeAllEndSpaces(working);
+    return working;
+}
+
 function setBackgroundBlur(value) {
     if (value) {
         document.getElementById("connection").style.display = "table";
@@ -93,7 +99,7 @@ function addOnClick() {
 function newElement() {
     let li = document.createElement("li");
     let inputValue = document.getElementById("myInput").value;
-    inputValue = inputValue.replace(/ $/,'')
+    inputValue = removeAllEndSpaces(inputValue);
     let t = document.createTextNode(inputValue);
     li.appendChild(t);
     if (inputValue === '' ) return;
