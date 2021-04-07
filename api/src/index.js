@@ -5,5 +5,5 @@ const setup = require('./setup');
 
 common.log(`🌠 Starting WebChecklist Server! v${config.version}`);
 setup.setup();
-if (config.server.ssl.enabled)  server.startSsl();
-if (!config.server.ssl.enabled) server.start();
+if (config.server.tls.enabled)  server.startTls();
+if (!config.server.tls.enabled) server.start();

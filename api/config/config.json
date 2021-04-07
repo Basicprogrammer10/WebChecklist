@@ -6,7 +6,7 @@
       "serveStatic": true,
       "staticFolder": "./../static"
     },
-    "ssl": {
+    "tls": {
       "enabled": false,
       "key": "./certificate/server.key",
       "cert": "./certificate/server.cert"
@@ -20,5 +20,5 @@
     "enabled": true,
     "log": "./log/#.log"
   },
-  "version": "0.2.6"
+  "version": "0.2.7"
 }

@@ -33,10 +33,10 @@ module.exports = {
 
     },
 
-    startSsl: function () {
+    startTls: function () {
         https.createServer({
-            key: fs.readFileSync(config.server.ssl.key),
-            cert: fs.readFileSync(config.server.ssl.cert)
+            key: fs.readFileSync(config.server.tls.key),
+            cert: fs.readFileSync(config.server.tls.cert)
         }, app)
             .listen(config.server.port, config.server.ip, function () {
                 console.log(`🐍 Serving https://${config.server.ip}:${config.server.port}/`);
