@@ -93,6 +93,7 @@ function addOnClick() {
 function newElement() {
     let li = document.createElement("li");
     let inputValue = document.getElementById("myInput").value;
+    inputValue = inputValue.replace(/ $/,'')
     let t = document.createTextNode(inputValue);
     li.appendChild(t);
     if (inputValue === '' ) return;
