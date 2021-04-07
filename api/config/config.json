@@ -6,6 +6,11 @@
       "serveStatic": true,
       "staticFolder": "./../static"
     },
+    "rateLimit": {
+      "enabled": true,
+      "window": 1000,
+      "max": 10
+    },
     "tls": {
       "enabled": false,
       "key": "./certificate/server.key",
