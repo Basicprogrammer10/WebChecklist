@@ -12,7 +12,6 @@ module.exports = {
     webSocket: function (wsServer, config) {
         let sockets = [];
         wsServer.on('connection', socket => {
-            if (!sockets.includes(socket)) common.log(`✔ WebSocket Connected IP: ${socket._socket.remoteAddress}`);
             socket.on('message', message => common.log("🔌 WebSocket: " + message + " IP: " + socket._socket.remoteAddress));
             sockets.push(socket);
 

@@ -8,6 +8,7 @@ const fs = require('fs');
 
 const wsServer = new ws.Server({noServer: true});
 const config = require('./../config/config.json');
+const common = require("./common");
 const app = express();
 if (config.server.static.serveStatic) app.use(express.static(config.server.static.staticFolder));
 app.use(rateLimit({windowMs: 1000, max: 10}));
@@ -26,6 +27,7 @@ module.exports = {
             .on('upgrade', (request, socket, head) => {
                 wsServer.handleUpgrade(request, socket, head, socket => {
                     wsServer.emit('connection', socket, request);
+                    common.log(`✔ WebSocket Connected IP: ${socket._socket.remoteAddress}`);
                 });
             });
 
@@ -42,8 +44,8 @@ module.exports = {
             .on('upgrade', (request, socket, head) => {
                 wsServer.handleUpgrade(request, socket, head, socket => {
                     wsServer.emit('connection', socket, request);
+                    common.log(`✔ WebSocket Connected IP: ${socket._socket.remoteAddress}`);
                 });
-            })
-            .on('ex');
+            });
     }
 }

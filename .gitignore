@@ -1,4 +1,5 @@
 /api/node_modules
 /.idea
-api/data/data.json
+/api/data/data.json
 /api/certificate/*
+/api/log/*
