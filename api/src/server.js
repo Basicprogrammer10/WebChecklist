@@ -22,12 +22,12 @@ require('./routes').rest(app, config);
 module.exports = {
     start: function () {
         app.listen(config.server.port, config.server.ip, function () {
-            console.log(`🐍 Serving http://${config.server.ip}:${config.server.port}/`);
+            common.log(`🐍 Serving http://${config.server.ip}:${config.server.port}/`);
         })
             .on('upgrade', (request, socket, head) => {
                 wsServer.handleUpgrade(request, socket, head, socket => {
                     wsServer.emit('connection', socket, request);
-                    common.log(`✔ WebSocket Connected IP: ${socket._socket.remoteAddress}`);
+                    common.log(`✔ WebSocket Connected`, '', socket._socket.remoteAddress);
                 });
             });
 
@@ -39,12 +39,12 @@ module.exports = {
             cert: fs.readFileSync(config.server.tls.cert)
         }, app)
             .listen(config.server.port, config.server.ip, function () {
-                console.log(`🐍 Serving https://${config.server.ip}:${config.server.port}/`);
+                common.log(`🐍 Serving https://${config.server.ip}:${config.server.port}/`);
             })
             .on('upgrade', (request, socket, head) => {
                 wsServer.handleUpgrade(request, socket, head, socket => {
                     wsServer.emit('connection', socket, request);
-                    common.log(`✔ WebSocket Connected IP: ${socket._socket.remoteAddress}`);
+                    common.log(`✔ WebSocket Connected`, '', socket._socket.remoteAddress);
                 });
             });
     }

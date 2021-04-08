@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports = {
     rest: function (app) {
         app.post('/login', function (req, res) {
-            common.log("🌐 Login Form: " + req.body.checklist.toLowerCase() + " IP: " + req.ip);
+            common.log("🌐 Login Form", req.body.checklist.toLowerCase(), req.ip);
             res.cookie('checklist', common.makeCookie(req.body.checklist.toLowerCase()));
             res.redirect('/');
         });
@@ -12,7 +12,7 @@ module.exports = {
     webSocket: function (wsServer, config) {
         let sockets = [];
         wsServer.on('connection', socket => {
-            socket.on('message', message => common.log("🔌 WebSocket: " + message + " IP: " + socket._socket.remoteAddress));
+            socket.on('message', message => common.log("🔌 WebSocket", message, socket._socket.remoteAddress));
             sockets.push(socket);
 
             socket.on('message', function (msg) {
@@ -97,7 +97,7 @@ module.exports = {
             });
 
             socket.on('close', function () {
-                common.log(`❌ WebSocket Disconnected IP: ${socket._socket.remoteAddress}`)
+                common.log(`❌ WebSocket Disconnected`, '', socket._socket.remoteAddress);
                 sockets = sockets.filter(s => s !== socket);
             });
         });

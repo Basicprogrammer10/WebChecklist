@@ -21,6 +21,9 @@ module.exports = {
         n = n + '';
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     },
+    ipPad: function(n) {
+        return `(${n})${' '.repeat(15 - n.length)}`;
+    },
     getLogFileName: function(format) {
         const today = new Date();
         const utcDay = today.getUTCDate();
@@ -38,8 +41,10 @@ module.exports = {
             if (err) throw err;
         });
     },
-    log: function (text) {
-        console.log(text);
-        this.addToLog(text);
+    log: function (type, text, ip) {
+        let working = `${this.ipPad(ip || ' ')} ${type || ''} ${text || ''}`;
+
+        console.log(working);
+        this.addToLog(working);
     }
 }
