@@ -34,31 +34,31 @@ ul li {
   font-size: 18px;
   transition: 0.2s;
   user-select: none;
-}
 
-ul li:nth-child(odd) {
-  background: $check-color-odd;
-}
+  &:nth-child(odd) {
+    background: $check-color-odd;
+  }
 
-ul li.checked {
-  background: $checked-color;
-  text-decoration: line-through;
-}
+  &.checked {
+    background: $checked-color;
+    text-decoration: line-through;
 
-ul li:hover {
-  background: $checked-color-hover;
-}
+    &::before {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      top: 10px;
+      left: 16px;
+      transform: rotate(45deg);
+      height: 15px;
+      width: 7px;
+    }
+  }
 
-ul li.checked::before {
-  content: '';
-  position: absolute;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
+  &:hover {
+    background: $checked-color-hover;
+  }
 }
 
 .top {
@@ -76,11 +76,11 @@ ul li.checked::before {
   top: 0;
   padding: 12px 16px 12px 16px;
   transition: 0.2s;
-}
 
-.close:hover {
-  background-color: #f44336;
-  color: white;
+  &:hover {
+    background-color: #f44336;
+    color: white;
+  }
 }
 
 .header {
@@ -94,12 +94,12 @@ ul li.checked::before {
   top: 0;
   width: 100%;
   z-index: 100;
-}
 
-.header:after {
-  content: "";
-  display: table;
-  clear: both;
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }
 
 input {
@@ -135,10 +135,11 @@ input {
   justify-content: center;
   align-items: center;
   box-shadow: 3px 3px 3px #131314;
-}
 
-.addBtn:hover {
-  background-color: #bbb;
+  &:hover {
+    background-color: #bbb;
+  }
+
 }
 
 .outerConnection {
