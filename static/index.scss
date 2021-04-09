@@ -1,8 +1,14 @@
+$background-color:     #17171a;
+$check-color:          #222531;
+$check-color-odd:      #171924;
+$checked-color-hover:  #323546;
+$checked-color:        #1e2339;
+
 body {
   margin: 0;
   min-width: 250px;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #17171a;
+  background-color: $background-color;
   color: white;
   height: 100%;
   width: 100%;
@@ -24,34 +30,28 @@ ul li {
   position: relative;
   padding: 12px 8px 12px 40px;
   list-style-type: none;
-  background: #222531;
+  background: $check-color;
   font-size: 18px;
   transition: 0.2s;
-
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
 ul li:nth-child(odd) {
-  background: #171924;
-}
-
-ul li:hover {
-  background: #323546;
+  background: $check-color-odd;
 }
 
 ul li.checked {
-  background: #1e2339;
-  color: #fff;
+  background: $checked-color;
   text-decoration: line-through;
+}
+
+ul li:hover {
+  background: $checked-color-hover;
 }
 
 ul li.checked::before {
   content: '';
   position: absolute;
-  border-color: #fff;
   border-style: solid;
   border-width: 0 2px 2px 0;
   top: 10px;
@@ -123,7 +123,7 @@ input {
   padding: 10px;
   width: 15%;
   height: 50px;
-  background: #222531;
+  background: $check-color;
   float: left;
   text-align: center;
   font-size: 16px;

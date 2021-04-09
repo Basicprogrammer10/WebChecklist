@@ -27,9 +27,6 @@ ul li {
   background: #222531;
   font-size: 18px;
   transition: 0.2s;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -37,20 +34,18 @@ ul li:nth-child(odd) {
   background: #171924;
 }
 
-ul li:hover {
-  background: #323546;
-}
-
 ul li.checked {
   background: #1e2339;
-  color: #fff;
   text-decoration: line-through;
+}
+
+ul li:hover {
+  background: #323546;
 }
 
 ul li.checked::before {
   content: "";
   position: absolute;
-  border-color: #fff;
   border-style: solid;
   border-width: 0 2px 2px 0;
   top: 10px;
