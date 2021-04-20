@@ -48,6 +48,7 @@ function createWebSocket() {
 
     socket.onclose = function (event) {
         if (event.wasClean) return;
+        if (event.code === 1000) return;
         setBackgroundBlur(true)
         setTimeout(createWebSocket, 5000);
     }

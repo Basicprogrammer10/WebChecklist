@@ -38,7 +38,7 @@ module.exports = {
         if (!config.log.enabled) return;
         fs.appendFile(this.getLogFileName(config.log.log), `[${datetime}] ${text}` + '\n','utf8',
             function(err) {
-            if (err) throw err;
+            if (err) console.log(ipPad("📜 Error writing to Log File :/"));
         });
     },
     log: function (type, text, ip) {

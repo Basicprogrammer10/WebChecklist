@@ -9,8 +9,17 @@ function createDataFile() {
     });
 }
 
+function createLogFolder() {
+    let dir = 'log';
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+        common.log("📜 Created Log Folder");
+    }
+}
+
 module.exports = {
     setup: function () {
         createDataFile();
+        createLogFolder();
     }
 }
