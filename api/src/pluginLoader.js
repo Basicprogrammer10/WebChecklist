@@ -1,16 +1,20 @@
 const common = require("./common");
 const fs = require("fs");
 
-function load(folder) {
+function load(folder, config) {
+    if (!config['plugins']['loadPlugins']) return;
     let plugins = {};
+    let loadedPlugins = 0;
     common.log('🔌 Loading Plugins');
     const commandFiles = fs.readdirSync(folder)
         .filter(file => file.endsWith('.js'));
 
     for (const file of commandFiles) {
+        if (config['plugins']['disabledPlugins'].includes(file)) continue;
         const command = require(`../${folder}/${file}`);
         if (!command.loadThis) continue;
         common.log(`🍞 Loading ${file} v${command.version}`);
+        loadedPlugins++;
         plugins[file] = {
             name: command.name,
             disable: command.disableDefaultApi,
@@ -18,7 +22,8 @@ function load(folder) {
             api: command.api
         };
     }
-    runInits(plugins);
+    common.log(`🔌 ${loadedPlugins} plugins loaded`);
+    if (loadedPlugins > 0) runInits(plugins);
     return plugins;
 }
 

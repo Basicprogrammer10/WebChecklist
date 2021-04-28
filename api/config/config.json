@@ -25,5 +25,11 @@
     "enabled": true,
     "log": "./log/#.log"
   },
-  "version": "0.2.80"
+  "plugins": {
+    "loadPlugins": true,
+    "disabledPlugins": [
+      "helloWorld.js"
+    ]
+  },
+  "version": "0.2.81"
 }

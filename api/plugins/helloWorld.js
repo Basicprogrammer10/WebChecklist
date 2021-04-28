@@ -1,11 +1,13 @@
 // Example WebChecklist Plugin
 // V1.0 By Connor Slade 4/28/2021
+// This plugin is currently disabled in the Config File
+// Enable it to see it in action
 
 // Load Common Functions
 const common = require('../src/common');
 
 module.exports = {
-    loadThis: false, // Tell Plugin Loader if it should load or ignore this plugin
+    loadThis: true, // Tell Plugin Loader if it should load or ignore this plugin
     name: 'Hello World', // Plugin Name
     version: '1.0', // Plugin Version
     disableDefaultApi: false, // Disables all default Api Functions
