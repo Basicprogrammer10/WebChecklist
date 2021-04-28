@@ -1,6 +1,7 @@
 let socket = null;
 let close = document.getElementsByClassName("close");
 let Nodes = document.getElementsByTagName("LI");
+if (localStorage.getItem('completeSetting') === null) localStorage.setItem('completeSetting', 'true');
 for (let i = 0; i < Nodes.length; i++) {
     let span = document.createElement("SPAN");
     let txt = document.createTextNode("\u00D7");
