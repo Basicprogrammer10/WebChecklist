@@ -4,15 +4,17 @@ function logOut() {
 }
 
 function toggleShowComplete() {
+    let newValue = !window.showingChecked;
+
+    localStorage.setItem("completeSetting", window.showingChecked.toString());
+    updateShow(window.showingChecked);
+    window.showingChecked = newValue;
+
     if (window.showingChecked) {
         document.getElementById('title').style.textDecoration = 'underline';
-        window.showingChecked = false;
-        updateShow(false);
         return;
     }
     document.getElementById('title').style.textDecoration = 'none';
-    window.showingChecked = true;
-    updateShow(true);
 }
 
 function updateShow(value) {

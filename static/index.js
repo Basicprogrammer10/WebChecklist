@@ -1,5 +1,4 @@
 let socket = null;
-window.showingChecked = true;
 let close = document.getElementsByClassName("close");
 let Nodes = document.getElementsByTagName("LI");
 for (let i = 0; i < Nodes.length; i++) {
@@ -61,3 +60,7 @@ function createWebSocket() {
         setTimeout(createWebSocket, 5000);
     };
 }
+
+window.showingChecked = (localStorage.getItem("completeSetting") === 'true');
+document.getElementById('title').style.textDecoration = window.showingChecked ? '' : 'underline';
+updateShow(!window.showingChecked);
