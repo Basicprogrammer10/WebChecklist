@@ -16,10 +16,23 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-require('./routes').webSocket(wsServer, config);
-require('./routes').rest(app, config);
-
 module.exports = {
+    init: function(plugins) {
+        let loadDefault = true;
+        for (const key in plugins) {
+            if ('disableDefaultApi' in plugins[key])
+                if (plugins[key].disableDefaultApi) loadDefault = false;
+            if ('api' in plugins[key]) {
+                for (const fun in plugins[key].api) {
+                    plugins[key].api[fun](app, wsServer, config);
+                }
+            }
+        }
+        if (!loadDefault) return;
+        require('./routes').webSocket(wsServer, config);
+        require('./routes').rest(app, config);
+    },
+
     start: function () {
         app.listen(config.server.port, config.server.ip, function () {
             common.log(`🐍 Serving http://${config.server.ip}:${config.server.port}/`);
