@@ -17,6 +17,11 @@ ul {
   padding: 0;
   margin: 75px 0 74px 0;
   transition-duration: 1s;
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(180deg, #1e2339 50%, #171924 50%);
+  background-repeat: repeat;
+  background-size: 1px 90px;
 }
 
 ul li {
@@ -24,13 +29,14 @@ ul li {
   position: relative;
   padding: 12px 8px 12px 40px;
   list-style-type: none;
-  background: #222531;
   font-size: 18px;
   transition: 0.2s;
   user-select: none;
-}
-ul li:nth-child(odd) {
-  background: #171924;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 32px;
+  height: 45px;
 }
 ul li.checked {
   background: #1e2339;
