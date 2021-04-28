@@ -3,6 +3,28 @@ function logOut() {
     window.location.href = "/login";
 }
 
+function toggleShowComplete() {
+    if (window.showingChecked) {
+        document.getElementById('title').style.textDecoration = 'underline';
+        window.showingChecked = false;
+        updateShow(false);
+        return;
+    }
+    document.getElementById('title').style.textDecoration = 'none';
+    window.showingChecked = true;
+    updateShow(true);
+}
+
+function updateShow(value) {
+    Array.from(document.getElementsByClassName('checked')).forEach(function (item) {
+        if (value) {
+            item.classList.remove('hidden');
+            return;
+        }
+        item.classList.add('hidden');
+    });
+}
+
 function removeAllEndSpaces(text) {
     let working = text.replace(/ $/,'');
     if (working.charAt(working.length - 1) === ' ') working = removeAllEndSpaces(working);
@@ -163,7 +185,8 @@ function updateListFromLoad(data) {
 
         addDelete(li);
         updateName();
-        updateDone();
-        addOnClick();
     });
+    updateDone();
+    addOnClick();
+    updateShow(window.showingChecked);
 }

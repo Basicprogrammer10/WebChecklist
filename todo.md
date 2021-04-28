@@ -11,3 +11,4 @@
 - [ ] 🔽 Make Checked items go to the bottom of the list
 - [ ] 🔼 New Items go on top
 - [ ] ✉ Only send Websocket data to clients that need it
+- [ ] 🔌 Add Plugins (Plugin Loader)

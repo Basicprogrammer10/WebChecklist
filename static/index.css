@@ -58,6 +58,7 @@ ul li:hover {
   vertical-align: middle;
   font-size: 38px;
   padding-right: 32px;
+  cursor: pointer;
 }
 
 .close {
@@ -222,6 +223,10 @@ img.footer-content {
   position: absolute;
   opacity: 75%;
   transition: 1s;
+  display: none;
+}
+
+.hidden {
   display: none;
 }
 

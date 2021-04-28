@@ -1,4 +1,5 @@
 let socket = null;
+window.showingChecked = true;
 let close = document.getElementsByClassName("close");
 let Nodes = document.getElementsByTagName("LI");
 for (let i = 0; i < Nodes.length; i++) {
@@ -22,6 +23,8 @@ document.querySelector('ul').addEventListener('click', function (ev) {
 document.getElementById('myInput').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') newElement();
 });
+
+document.getElementById("title").addEventListener('click', toggleShowComplete, false);
 
 window.onload = function() {
     createWebSocket();
