@@ -190,5 +190,5 @@ function updateListFromLoad(data) {
     });
     updateDone();
     addOnClick();
-    updateShow(window.showingChecked);
+    updateShow((localStorage.getItem("completeSetting") === 'true'));
 }
