@@ -11,7 +11,12 @@ function load(folder) {
         const command = require(`../${folder}/${file}`);
         if (!command.loadThis) continue;
         common.log(`🍞 Loading ${file} v${command.version}`);
-        plugins[file] = {name: command.name, disable: command.disableDefaultApi, init: command.onInit, api: command.api};
+        plugins[file] = {
+            name: command.name,
+            disable: command.disableDefaultApi,
+            init: command.onInit,
+            api: command.api
+        };
     }
     runInits(plugins);
     return plugins;

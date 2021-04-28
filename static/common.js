@@ -28,7 +28,7 @@ function updateShow(value) {
 }
 
 function removeAllEndSpaces(text) {
-    let working = text.replace(/ $/,'');
+    let working = text.replace(/ $/, '');
     if (working.charAt(working.length - 1) === ' ') working = removeAllEndSpaces(working);
     return working;
 }
@@ -44,7 +44,6 @@ function setBackgroundBlur(value) {
         document.body.style.pointerEvents = "none";
         document.body.style.position = "fixed";
         document.body.style.top = `-${window.scrollY}px`;
-
         return;
     }
     document.getElementById("connection").style.display = "none";
@@ -58,16 +57,16 @@ function setBackgroundBlur(value) {
     document.body.style.top = '';
 }
 
-function delete_cookie( name, path, domain ) {
-    if( get_cookie( name ) ) {
+function delete_cookie(name, path, domain) {
+    if (get_cookie(name)) {
         document.cookie = name + "=" +
-            ((path) ? ";path="+path:"")+
-            ((domain)?";domain="+domain:"") +
+            ((path) ? ";path=" + path : "") +
+            ((domain) ? ";domain=" + domain : "") +
             ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
     }
 }
 
-function get_cookie(name){
+function get_cookie(name) {
     return document.cookie.split(';').some(c => {
         return c.trim().startsWith(name + '=');
     });
@@ -91,15 +90,15 @@ function updateDone() {
     let total = listItem.length;
     let done = 0;
 
-    for (let i=0; i < listItem.length; i++) {
+    for (let i = 0; i < listItem.length; i++) {
         if (listItem[i].classList.contains('checked')) done++;
         if (listItem[i].style.display === 'none') total--;
     }
-    document.getElementById('amount').innerText = `${pad(Math.round(done/total*100), 3)}%`;
+    document.getElementById('amount').innerText = `${pad(Math.round(done / total * 100), 3)}%`;
 }
 
 function updateName() {
-    document.cookie.split(';').forEach(function(key) {
+    document.cookie.split(';').forEach(function (key) {
         let keyName = key.split('=');
         if (keyName[0] === 'checklist') {
             document.getElementById('title').innerHTML = decodeURI(keyName[1].charAt(0).toUpperCase() + keyName[1].slice(1));
@@ -126,14 +125,14 @@ function newElement() {
     inputValue = removeAllEndSpaces(inputValue);
     let t = document.createTextNode(inputValue);
     li.appendChild(t);
-    if (inputValue === '' ) return;
+    if (inputValue === '') return;
 
     document.getElementById("myUL").appendChild(li);
     addDelete(li);
     updateDatabase(inputValue, false);
     updateDone();
     document.getElementById("myInput").value = "";
-    window.scrollTo(0,document.body.scrollHeight);
+    window.scrollTo(0, document.body.scrollHeight);
 }
 
 function addDelete(li) {
@@ -152,11 +151,23 @@ function addDelete(li) {
 }
 
 function updateDatabase(name, checked) {
-        socket.send(JSON.stringify({"action": "update", "cookie": getCookie('checklist'), "data": {"name": name, "checked": checked}}));
+    socket.send(JSON.stringify({
+        "action": "update",
+        "cookie": getCookie('checklist'),
+        "data": {"name": name, "checked": checked}
+    }));
 }
 
 function deleteItem(name) {
-    socket.send(JSON.stringify({"action": "delete", "cookie": getCookie('checklist'), "data": {"name": name}}));
+    let formattedName = name;
+    let replaceArray = {'&gt;': '>', '&lt;': '<', '&amp;': '&', '&quot;': '"', '&apos;': '\''};
+    for (const i in replaceArray) formattedName = formattedName.replace(i, replaceArray[i])
+
+    socket.send(JSON.stringify({
+        "action": "delete",
+        "cookie": getCookie('checklist'),
+        "data": {"name": formattedName}
+    }));
 }
 
 function loadList() {

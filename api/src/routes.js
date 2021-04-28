@@ -79,7 +79,7 @@ module.exports = {
                 if (data['action'] === 'delete') {
                     let checklist = common.makeCookie(data['cookie']);
                     let item = {
-                        name: data.data.name
+                        name: common.makeName(data.data.name)
                     }
 
                     fs.readFile(config.data.data, 'utf8', (err, FileData) => {

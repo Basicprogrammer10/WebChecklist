@@ -11,13 +11,16 @@ const config = require('./../config/config.json');
 const common = require("./common");
 const app = express();
 if (config.server.static.serveStatic) app.use(express.static(config.server.static.staticFolder));
-if (config.server.rateLimit.enabled) app.use(rateLimit({windowMs: config.server.rateLimit.window, max: config.server.rateLimit.max}));
+if (config.server.rateLimit.enabled) app.use(rateLimit({
+    windowMs: config.server.rateLimit.window,
+    max: config.server.rateLimit.max
+}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
 module.exports = {
-    init: function(plugins) {
+    init: function (plugins) {
         let loadDefault = true;
         for (const key in plugins) {
             if ('disableDefaultApi' in plugins[key])

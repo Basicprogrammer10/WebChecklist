@@ -26,7 +26,7 @@ document.getElementById('myInput').addEventListener('keypress', function (e) {
 
 document.getElementById("title").addEventListener('click', toggleShowComplete, false);
 
-window.onload = function() {
+window.onload = function () {
     createWebSocket();
 }
 

@@ -7,5 +7,5 @@ const setup = require('./setup');
 common.log(`🌠 Starting WebChecklist Server! v${config.version}`);
 setup.setup();
 server.init(pluginLoader.load('plugins'));
-if (config.server.tls.enabled)  server.startTls();
+if (config.server.tls.enabled) server.startTls();
 if (!config.server.tls.enabled) server.start();
