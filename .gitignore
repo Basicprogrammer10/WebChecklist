@@ -6,3 +6,4 @@
 log/*
 api/plugins/pageManager.js
 api/plugins/checklistLink.js
+api/plugins/simpleApi.js
