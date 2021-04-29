@@ -3,4 +3,5 @@
 /api/data/data.json
 /api/certificate/*
 /api/log/*
-/log/*
+log/*
+api/plugins/pageManager.js
