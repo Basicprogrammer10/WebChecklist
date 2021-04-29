@@ -5,3 +5,4 @@
 /api/log/*
 log/*
 api/plugins/pageManager.js
+api/plugins/checklistLink.js

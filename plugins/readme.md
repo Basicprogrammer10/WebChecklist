@@ -7,3 +7,4 @@ Be sure to read the code header to learn more about the plugins.
 |Plugin|What it Does|
 |-------|-----------|
 |pageManager|A simple Admin Panel for the world best Web Checklist|
+|checklistLink|Allow accessing checklists from urls (ex: .../link/test)|
