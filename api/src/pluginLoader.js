@@ -30,7 +30,12 @@ function load(folder, config) {
 function runInits(plugins) {
     common.log('👆 Initializing Plugins');
     for (const key in plugins) {
-        if ('init' in plugins[key]) plugins[key].init();
+        try {
+            plugins[key].init();
+        }
+        catch (e) {
+
+        }
     }
 }
 
