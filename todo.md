@@ -12,3 +12,5 @@
 - [ ] 🔼 New Items go on top
 - [ ] ✉ Only send Websocket data to clients that need it
 - [X] 🔌 Add Plugins (Plugin Loader)
+- [X] 🌠 Show and Hide complete Tasks
+- [X] 🌱 Convert from css to scss

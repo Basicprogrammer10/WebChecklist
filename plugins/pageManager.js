@@ -17,7 +17,7 @@ function getTableForPages(dataFile, config) {
     working += `<h2>Server Running WebChecklist v${config.version}</h2><table><tr><th>PageName</th><th>View</th>`;
     if (configLocal.allowRemove) working += '<th>Remove</th>';
     working += '<th>Details</th></tr>';
-    Object.keys(JSON.parse(data)).sort().forEach((key, index) => {
+    Object.keys(JSON.parse(data)).sort().forEach((key) => {
         working += `<tr><td>${key}</td>`;
         working += `<td><a href="/manage/action/open/${key}">✅</a>`;
         if (configLocal.allowRemove) working += `</td><th><a href="/manage/action/remove/${key}/0">🗑️</a></th>`;
