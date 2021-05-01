@@ -31,5 +31,8 @@
       "helloWorld.js"
     ]
   },
+  "settings": {
+    "allowCreatingPages": true
+  },
   "version": "0.2.81"
 }

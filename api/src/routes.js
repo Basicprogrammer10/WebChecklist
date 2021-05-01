@@ -29,6 +29,10 @@ module.exports = {
                         let oldFile = JSON.parse(FileData);
                         let checklist = common.makeCookie(data['cookie']);
                         if (oldFile[checklist] === undefined) {
+                            if (!config.settings.allowCreatingPages) {
+                                socket.send(JSON.stringify({'logout': true}));
+                                return;
+                            }
                             socket.send(JSON.stringify({
                                 data: {new: true, template: config.data.defaultData},
                                 type: "updateList",
