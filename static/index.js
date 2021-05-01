@@ -31,7 +31,9 @@ window.onload = function () {
 }
 
 function createWebSocket() {
-    socket = new WebSocket("ws://" + window.location.href.split('/')[2]);
+    let wsProto = 'ws';
+    if (location.protocol === 'https:') wsProto = 'wss';
+    socket = new WebSocket(`${wsProto}://${window.location.href.split('/')[2]}`);
 
     socket.onopen = function () {
         loadList();
