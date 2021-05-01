@@ -4,6 +4,4 @@
 /api/certificate/*
 /api/log/*
 log/*
-api/plugins/pageManager.js
-api/plugins/checklistLink.js
-api/plugins/simpleApi.js
+api/plugins/*
