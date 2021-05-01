@@ -39,7 +39,8 @@ module.exports = {
                                <meta property="og:description" content="Checklist — ${realList}" />
                                <meta name="theme-color" content="#17171a"></head><body>
                                <p>Click <a href="/">here</a> to be redirected to '${realList}'</p>
-                               <script></script></body></html>`;
+                               <script>window.location = "${"https://" + req.headers.host}";</script>
+                               </body></html>`;
                 sendHtml(res, working);
             });
         }
