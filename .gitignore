@@ -5,3 +5,4 @@
 /api/log/*
 log/*
 api/plugins/*
+plugins/autoBackupDatabase/server/node_modules
