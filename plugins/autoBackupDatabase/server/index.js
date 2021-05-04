@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const snappy = require('snappy')
 const fs = require('fs');
-const port = 8080;
+
+const hostName = '0.0.0.0';
+const port = 8732;
 
 const app = express();
 app.use(bodyParser.json({ extended: true }));
@@ -45,6 +47,6 @@ app.post('/', function (req, res) {
 });
 
 if (!fs.existsSync('data')) fs.mkdirSync('data');
-app.listen(port, function () {
-    console.log(`[*] Serving http://localhost:${port}/\n`);
+app.listen(port, hostName, function () {
+    console.log(`[*] Serving http://${hostName}:${port}/\n`);
 });
