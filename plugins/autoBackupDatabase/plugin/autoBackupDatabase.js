@@ -49,6 +49,7 @@ function tryPost(serverConfig, data, callback) {
 
 // Start the backup
 function doBackup(serverConfig){
+    let jsonData;
     common.log('💽 Starting Backup');
     let data = fs.readFileSync(config.data.data, "utf8");
     let base64 = Buffer.from(data).toString('base64');
@@ -58,7 +59,8 @@ function doBackup(serverConfig){
             common.log(`💽 Backup Error - ${error}`);
             return;
         }
-        let jsonData = JSON.parse(data);
+        try { jsonData = JSON.parse(data); }
+        catch (e) { return; }
         if (Object.keys(jsonData).includes('error')) {
             common.log(`💽 Backup Error - ${jsonData.error}`);
             return;
@@ -70,7 +72,7 @@ function doBackup(serverConfig){
 module.exports = {
     loadThis: true,
     name: 'Auto Backup Database',
-    version: '0.22',
+    version: '0.23',
     disableDefaultApi: false,
 
     // Init Plugin

@@ -1,4 +1,5 @@
 const common = require("./common");
+const uuid = require('uuid');
 const fs = require('fs');
 
 module.exports = {
@@ -33,12 +34,18 @@ module.exports = {
                                 socket.send(JSON.stringify({'logout': true}));
                                 return;
                             }
-                            socket.send(JSON.stringify({
-                                data: {new: true, template: config.data.defaultData},
+
+                            let newData = config.data.defaultData;
+                            while (newData.includes("$$")) {
+                                newData = newData.replace("$$", uuid.v4());
+                            }
+
+                            socket.send(JSON.stringify({                                
+                                data: {new: true, template: newData},
                                 type: "updateList",
                                 checklist: checklist
                             }));
-                            oldFile = Object.assign(JSON.parse('{"' + checklist + '": ' + config.data.defaultData + '}'), oldFile);
+                            oldFile = Object.assign({checklist: newData}, oldFile);
                             fs.writeFile(config.data.data, JSON.stringify(oldFile), function (err) {
                                 if (err) return;
                                 common.log("🦈 Updated 'Database'");
@@ -56,6 +63,7 @@ module.exports = {
 
                 if (data['action'] === 'update') {
                     let item = {
+                        id: uuid.v4(),
                         name: common.makeName(data.data.name),
                         checked: data.data.checked
                     }
