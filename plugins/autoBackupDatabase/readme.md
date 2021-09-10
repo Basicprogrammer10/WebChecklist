@@ -13,4 +13,4 @@ Then install the plugin on your WebChecklist Server and sent the config values i
 
 Use the supplied deCompress.js program.
 
-Ex: node deCompress.js in.wcb out.json
+Ex: `node deCompress.js in.wcb out.json`
